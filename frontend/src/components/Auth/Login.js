@@ -1,33 +1,38 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../context/AuthContext';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: '',
+  });
 
   const handleLogin = async () => {
-    try {
-      // Make API request to login endpoint
-      const response = await axios.post('/login', { email, password });
-
-      // Update authentication state (e.g., store token in context)
-      login(response.data.token);
-
-      // Redirect or perform other actions upon successful login
-    } catch (error) {
-      console.error(error);
-    }
+    await login(loginData);
+    // Add redirection logic or other actions after successful login
   };
 
   return (
     <div>
       <h2>Login</h2>
       <form>
-        {/* Input fields for email and password */}
+        <label>Email:</label>
+        <input
+          type="email"
+          value={loginData.email}
+          onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+        />
+        <label>Password:</label>
+        <input
+          type="password"
+          value={loginData.password}
+          onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+        />
         <button type="button" onClick={handleLogin}>Login</button>
-      </form>
+	</form>
+	  <p>Don't have an account? <Link to="/register">Register here</Link>.</p>
     </div>
   );
 };

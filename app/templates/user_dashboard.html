@@ -1,0 +1,15 @@
+<!-- user_dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome, {{ current_user.username }}!</h2>
+  <p>Email: {{ current_user.email }}</p>
+
+  <h3>Actions:</h3>
+  <ul>
+    <li><a href="/user/job-list">View Jobs</a></li>
+    <!-- Add more links as needed -->
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+{% endblock %}
+
